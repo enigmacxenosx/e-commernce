@@ -1,0 +1,5 @@
+Redeploy trigger for Vercel
+
+This file was added to trigger a redeploy of the site. Delete this file after the deployment if you want.
+
+Timestamp: 2026-08-01T15:03:00Z
