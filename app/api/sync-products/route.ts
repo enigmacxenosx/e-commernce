@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server"
 import { PlatformAPI } from "@/lib/api/platforms"
-import { supabase } from "@/lib/supabase/client"
+import { createSupabaseClient } from "@/lib/supabase/client"
 
 // Background job to sync products from all platforms
 export async function POST() {
   try {
     console.log("[enosx] Starting product sync job...")
+
+    // Create the Supabase client at request-time so we don't initialize it during build
+    const supabase = createSupabaseClient()
 
     const categories = ["smartphones", "laptops", "headphones", "tablets", "accessories"]
     let totalSynced = 0
