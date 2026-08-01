@@ -5,7 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { DynamicBackground } from "@/components/dynamic-background"
-import { ComparisonButton } from "@/components/comparison-button"
+// ComparisonButton removed temporarily to prevent client-side crash
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ html {
         <DynamicBackground />
         <ThemeProvider defaultTheme="system" storageKey="enosx-ui-theme">
           {children}
-          <ComparisonButton />
+          {/* ComparisonButton removed temporarily */}
           <Toaster />
         </ThemeProvider>
       </body>
