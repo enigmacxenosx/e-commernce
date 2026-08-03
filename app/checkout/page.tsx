@@ -136,7 +136,7 @@ export default function CheckoutPage() {
       try {
         const adminEmailTemplate = emailTemplates.newOrderAdmin(order)
         await sendEmail({
-          to: "proenosx@gmail.com",
+          to: "Enosxtech@gmail.com",
           subject: adminEmailTemplate.subject,
           html: adminEmailTemplate.html,
           text: adminEmailTemplate.text,

@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
               <p>Thank you for choosing Enosx Technologies!</p>
               
               <p style="color: #6b7280; font-size: 14px;">
-                If you have any questions, please contact us at proenosx@gmail.com or 0798303978
+                If you have any questions, please contact us at Enosxtech@gmail.com or 0798303978
               </p>
             </div>
           </div>

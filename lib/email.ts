@@ -116,7 +116,7 @@ export const emailTemplates = {
           <p>Thank you for choosing Enosx Technologies!</p>
           
           <p style="color: #6b7280; font-size: 14px;">
-            If you have any questions, please contact us at proenosx@gmail.com
+            If you have any questions, please contact us at Enosxtech@gmail.com
           </p>
         </div>
       </div>
@@ -152,7 +152,7 @@ export const emailTemplates = {
             <p><strong>Total Amount:</strong> KES ${order.total_amount.toLocaleString()}</p>
           </div>
           
-          <p>Please contact us at proenosx@gmail.com for more information or to place a new order.</p>
+          <p>Please contact us at Enosxtech@gmail.com for more information or to place a new order.</p>
           
           <p>We apologize for any inconvenience and appreciate your understanding.</p>
           
@@ -160,6 +160,6 @@ export const emailTemplates = {
         </div>
       </div>
     `,
-    text: `Your order #${order.order_number} could not be processed. Please contact proenosx@gmail.com for more information.`,
+    text: `Your order #${order.order_number} could not be processed. Please contact Enosxtech@gmail.com for more information.`,
   }),
 }

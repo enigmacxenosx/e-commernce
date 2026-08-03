@@ -265,7 +265,7 @@ export function AdminOrderDetails({ order: initialOrder }: AdminOrderDetailsProp
               <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
                 ${adminNotes.replace(/\n/g, "<br>")}
               </div>
-              <p>If you have any questions, please contact us at proenosx@gmail.com or 0798303978</p>
+              <p>If you have any questions, please contact us at Enosxtech@gmail.com or 0798303978</p>
               <p>Best regards,<br>Enosx Technologies Team</p>
             </div>
           </div>
