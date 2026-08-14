@@ -1,8 +1,9 @@
 "use client"
+"use client"
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -58,6 +59,10 @@ export default function CheckoutPage() {
     county: "",
     notes: "",
   })
+
+  useEffect(() => {
+    if (items.length === 0) router.replace("/cart")
+  }, [items.length, router])
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-KE", {
@@ -168,8 +173,7 @@ export default function CheckoutPage() {
   }
 
   if (items.length === 0) {
-    router.push("/cart")
-    return null
+    return <div className="min-h-screen bg-background" />
   }
 
   return (
