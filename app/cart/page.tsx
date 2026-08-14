@@ -6,7 +6,7 @@ import { CartItem } from "@/components/cart-item"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useCartStore } from "@/lib/cart-store"
-import { ShoppingBag, ArrowRight } from "lucide-react"
+import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 
 export default function CartPage() {
@@ -80,6 +80,7 @@ export default function CartPage() {
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </Link>
+                <div className="flex gap-2 rounded-lg bg-muted p-3 text-xs leading-5 text-muted-foreground"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600"/><span>Your order is reviewed before any partner-store action. You will receive the relevant external checkout links once availability and order details are confirmed.</span></div>
               </CardContent>
             </Card>
           </div>

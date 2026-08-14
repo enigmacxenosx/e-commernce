@@ -5,6 +5,7 @@ import { Search, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CartButton } from "@/components/cart-button"
+import { WatchlistButton } from "@/components/watchlist-button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { SearchSuggestions } from "@/components/search-suggestions"
 import { supabase } from "@/lib/supabase/client"
@@ -87,6 +88,7 @@ export function Header() {
                 </Link>
               </Button>
             )}
+            <WatchlistButton />
             <CartButton />
           </div>
         </div>

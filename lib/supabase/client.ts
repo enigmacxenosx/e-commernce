@@ -31,6 +31,7 @@ export function createSupabaseClient() {
       signInWithOtp: noopResult,
       signInWithPassword: noopResult,
       signOut: noopResult,
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => undefined } } }),
       // Other auth methods can be added as needed
     },
     storage: {
@@ -48,5 +49,9 @@ export function createSupabaseClient() {
 
 // Backwards-compatible export name some modules may import
 export const createClient = createSupabaseClient
+
+// Compatibility singleton for pre-existing client components. The factory remains the preferred
+// path for server work and for code that requires an explicitly fresh browser client.
+export const supabase = createSupabaseClient()
 
 // Do NOT create a singleton client at module load — call createSupabaseClient() at runtime.

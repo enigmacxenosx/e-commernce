@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, ExternalLink, Heart, Star, Eye, Scale } from 'lucide-react'
 import { useCartStore } from "@/lib/cart-store"
+import { useWatchlistStore } from "@/lib/watchlist-store"
 import { useComparison } from "@/hooks/useComparison"
 import { toast } from "@/hooks/use-toast"
 
@@ -29,11 +30,12 @@ interface EnhancedProductCardProps {
 
 export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
   const [isHovered, setIsHovered] = useState(false)
-  const [isLiked, setIsLiked] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addItem } = useCartStore()
+  const { addItem: addToWatchlist, removeItem: removeFromWatchlist, isWatched } = useWatchlistStore()
   const { addItem: addToComparison, isInComparison, isFull } = useComparison()
+  const watched = isWatched(product.id)
 
   // <CHANGE> Use multiple images if available, fallback to single image
   const productImages = product.images && product.images.length > 0 ? product.images : [product.image]
@@ -216,13 +218,19 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
-              setIsLiked(!isLiked)
+              if (watched) {
+                removeFromWatchlist(product.id)
+                toast({ title: "Removed from saved products", description: `${product.name} is no longer being watched.` })
+              } else {
+                addToWatchlist({ id: product.id, name: product.name, price: product.price, currency: "KES", image: product.image, platform: product.platform, externalUrl: product.externalUrl, inStock: product.inStock })
+                toast({ title: "Saved for later", description: `Set a target price from your saved products list.` })
+              }
             }}
             className={`absolute top-2 right-2 p-2 rounded-full transition-all duration-300 ${
-              isLiked ? "bg-red-500 text-white" : "bg-white/90 text-gray-600 hover:bg-red-500 hover:text-white"
+              watched ? "bg-red-500 text-white" : "bg-white/90 text-gray-600 hover:bg-red-500 hover:text-white"
             } ${isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
           >
-            <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
+            <Heart className={`h-4 w-4 ${watched ? "fill-current" : ""}`} />
           </button>
 
           {/* Quick actions */}
