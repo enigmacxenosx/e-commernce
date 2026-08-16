@@ -1,0 +1,3 @@
+{
+  "/price-history/[productId]/page": "app/price-history/[productId]/page.js"
+}

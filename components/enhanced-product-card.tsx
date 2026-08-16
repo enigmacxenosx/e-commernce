@@ -3,7 +3,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Heart, Scale, ShoppingBag, Star } from "lucide-react"
+import { ArrowUpRight, Heart, LineChart, Scale, ShoppingBag, Star } from "lucide-react"
+import { recordPrice } from "@/lib/price-history-store"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/lib/cart-store"
@@ -39,6 +40,7 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
   const { addItem: addToWatchlist, removeItem: removeFromWatchlist, isWatched } = useWatchlistStore()
   const { addItem: addToComparison, isInComparison, isFull } = useComparison()
   const watched = isWatched(product.id)
+  recordPrice({ id: product.id, name: product.name, price: product.price, currency: product.currency || "KES", image: product.image, images: [], platform: product.platform, category: "", availability: product.inStock, externalUrl: product.externalUrl })
   const productImages = product.images?.length ? product.images : [product.image]
   const platform = platformStyles[product.platform.toLowerCase()] || { label: product.platform, className: "bg-[#e7efff] text-[#3677ff]" }
   const discount = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0
@@ -133,6 +135,11 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
             </Button>
             <Button type="button" size="icon" variant="secondary" onClick={handleAddToComparison} aria-label="Add to compare" className={`rounded-xl ${compared ? "bg-[#dfff5b] text-[#102235]" : "bg-white/90 text-[#102235]"}`}>
               <Scale className="h-4 w-4" />
+            </Button>
+            <Button type="button" size="icon" variant="secondary" asChild aria-label="View price history" className="rounded-xl bg-white/90 text-[#102235]">
+              <Link href={`/price-history/${product.id}`}>
+                <LineChart className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>

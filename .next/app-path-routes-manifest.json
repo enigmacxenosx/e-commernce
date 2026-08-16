@@ -18,6 +18,7 @@
   "/compare/page": "/compare",
   "/orders/[id]/page": "/orders/[id]",
   "/page": "/",
+  "/price-history/[productId]/page": "/price-history/[productId]",
   "/search/page": "/search",
   "/watchlist/page": "/watchlist"
 }

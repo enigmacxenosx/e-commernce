@@ -18,6 +18,7 @@
   "/compare/page": "app/compare/page.js",
   "/orders/[id]/page": "app/orders/[id]/page.js",
   "/page": "app/page.js",
+  "/price-history/[productId]/page": "app/price-history/[productId]/page.js",
   "/search/page": "app/search/page.js",
   "/watchlist/page": "app/watchlist/page.js"
 }

@@ -37,6 +37,14 @@
         "nxtPid": "nxtPid"
       },
       "namedRegex": "^/orders/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/price-history/[productId]",
+      "regex": "^/price\\-history/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPproductId": "nxtPproductId"
+      },
+      "namedRegex": "^/price\\-history/(?<nxtPproductId>[^/]+?)(?:/)?$"
     }
   ],
   "staticRoutes": [
