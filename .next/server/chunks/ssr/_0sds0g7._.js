@@ -1,0 +1,110 @@
+module.exports=[52694,a=>{"use strict";var b=a.i(87924),c=a.i(72131),d=a.i(70382),e=a.i(28887),f=a.i(40695),g=a.i(3130),h=a.i(5522),i=a.i(17171),j=a.i(46893),k=a.i(87682),l=a.i(12358),m=a.i(69240),n=a.i(77687),o=a.i(50944),p=a.i(96221),q=a.i(24987),r=a.i(9759);let s={Nairobi:["Nairobi City"],Central:["Kiambu","Murang'a","Nyeri","Kirinyaga","Nyandarua"],Coast:["Mombasa","Kwale","Kilifi","Tana River","Lamu","Taita-Taveta"],Eastern:["Machakos","Kitui","Makueni","Embu","Tharaka-Nithi","Meru","Isiolo"],"North Eastern":["Garissa","Wajir","Mandera"],Nyanza:["Kisumu","Siaya","Kisii","Nyamira","Homa Bay","Migori"],"Rift Valley":["Nakuru","Uasin Gishu","Trans Nzoia","Turkana","West Pokot","Samburu","Laikipia","Nandi","Baringo","Kericho","Bomet","Kakamega","Vihiga","Bungoma","Busia"],Western:["Kakamega","Vihiga","Bungoma","Busia"]};a.s(["default",0,function(){let a=(0,o.useRouter)(),{items:t,getTotalPrice:u,clearCart:v}=(0,l.useCartStore)(),[w,x]=(0,c.useState)(!1),[y,z]=(0,c.useState)({customerName:"",customerEmail:"",customerPhone:"",deliveryAddress:"",region:"",county:"",notes:""});(0,c.useEffect)(()=>{0===t.length&&a.replace("/cart")},[t.length,a]);let A=a=>new Intl.NumberFormat("en-KE",{style:"currency",currency:"KES",minimumFractionDigits:0}).format(a),B=a=>{z({...y,[a.target.name]:a.target.value})},C=async b=>{b.preventDefault(),x(!0);try{let{data:b,error:c}=await m.supabase.from("orders").insert({total_amount:u(),customer_name:y.customerName,customer_email:y.customerEmail,customer_phone:y.customerPhone,delivery_address:y.deliveryAddress,delivery_region:y.region,delivery_county:y.county,notes:y.notes,status:"pending"}).select().single();if(c)throw c;let d=t.map(a=>({order_id:b.id,product_id:a.id,quantity:a.quantity,unit_price:a.price,total_price:a.price*a.quantity,platform:a.platform,external_product_url:a.externalUrl})),{error:e}=await m.supabase.from("order_items").insert(d);if(e)throw e;try{let a=r.emailTemplates.newOrderAdmin(b);await (0,r.sendEmail)({to:"Enosxtech@gmail.com",subject:a.subject,html:a.html,text:a.text}),console.log("[enosx] Admin notification email sent successfully")}catch(a){console.error("[enosx] Failed to send admin notification email:",a)}v(),(0,n.toast)({title:"Order placed successfully!",description:`Your order #${b.order_number} has been submitted for admin approval.`}),a.push(`/orders/${b.id}`)}catch(a){console.error("Order submission error:",a),(0,n.toast)({title:"Error placing order",description:"Please try again or contact support.",variant:"destructive"})}finally{x(!1)}};return 0===t.length?(0,b.jsx)("div",{className:"min-h-screen bg-background"}):(0,b.jsxs)("div",{className:"min-h-screen bg-background",children:[(0,b.jsx)(d.Header,{}),(0,b.jsxs)("main",{className:"container mx-auto px-4 py-8",children:[(0,b.jsx)("h1",{className:"text-3xl font-bold text-gray-900 mb-8",children:"Checkout"}),(0,b.jsxs)("div",{className:"grid grid-cols-1 lg:grid-cols-2 gap-8",children:[(0,b.jsx)("div",{children:(0,b.jsxs)(g.Card,{children:[(0,b.jsx)(g.CardHeader,{children:(0,b.jsxs)(g.CardTitle,{className:"flex items-center gap-2",children:[(0,b.jsx)(q.MapPin,{className:"h-5 w-5"}),"Delivery Information"]})}),(0,b.jsx)(g.CardContent,{children:(0,b.jsxs)("form",{onSubmit:C,className:"space-y-4",children:[(0,b.jsxs)("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-4",children:[(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"customerName",children:"Full Name *"}),(0,b.jsx)(h.Input,{id:"customerName",name:"customerName",value:y.customerName,onChange:B,required:!0})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"customerEmail",children:"Email *"}),(0,b.jsx)(h.Input,{id:"customerEmail",name:"customerEmail",type:"email",value:y.customerEmail,onChange:B,required:!0})]})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"customerPhone",children:"Phone Number"}),(0,b.jsx)(h.Input,{id:"customerPhone",name:"customerPhone",value:y.customerPhone,onChange:B,placeholder:"e.g., 0798303978"})]}),(0,b.jsxs)("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-4",children:[(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"region",children:"Region *"}),(0,b.jsxs)(k.Select,{value:y.region,onValueChange:a=>{z({...y,region:a,county:""})},required:!0,children:[(0,b.jsx)(k.SelectTrigger,{children:(0,b.jsx)(k.SelectValue,{placeholder:"Select region"})}),(0,b.jsx)(k.SelectContent,{children:Object.keys(s).map(a=>(0,b.jsx)(k.SelectItem,{value:a,children:a},a))})]})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"county",children:"County *"}),(0,b.jsxs)(k.Select,{value:y.county,onValueChange:a=>{z({...y,county:a})},disabled:!y.region,required:!0,children:[(0,b.jsx)(k.SelectTrigger,{children:(0,b.jsx)(k.SelectValue,{placeholder:y.region?"Select county":"Select region first"})}),(0,b.jsx)(k.SelectContent,{children:(!y.region?[]:s[y.region]||[]).map(a=>(0,b.jsx)(k.SelectItem,{value:a,children:a},a))})]})]})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"deliveryAddress",children:"Detailed Address *"}),(0,b.jsx)(j.Textarea,{id:"deliveryAddress",name:"deliveryAddress",value:y.deliveryAddress,onChange:B,required:!0,rows:3,placeholder:"Street address, building name, apartment number, landmarks..."})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)(i.Label,{htmlFor:"notes",children:"Additional Notes"}),(0,b.jsx)(j.Textarea,{id:"notes",name:"notes",value:y.notes,onChange:B,rows:2,placeholder:"Special delivery instructions, preferred delivery time, etc."})]}),(0,b.jsx)(f.Button,{type:"submit",className:"w-full bg-blue-600 hover:bg-blue-700",disabled:w,children:w?(0,b.jsxs)(b.Fragment,{children:[(0,b.jsx)(p.Loader2,{className:"h-4 w-4 mr-2 animate-spin"}),"Placing Order..."]}):"Place Order"})]})})]})}),(0,b.jsx)("div",{children:(0,b.jsxs)(g.Card,{children:[(0,b.jsx)(g.CardHeader,{children:(0,b.jsx)(g.CardTitle,{children:"Order Summary"})}),(0,b.jsxs)(g.CardContent,{className:"space-y-4",children:[t.map(a=>(0,b.jsxs)("div",{className:"flex justify-between items-center",children:[(0,b.jsxs)("div",{children:[(0,b.jsx)("p",{className:"font-medium",children:a.name}),(0,b.jsxs)("p",{className:"text-sm text-gray-500",children:[a.platform," • Qty: ",a.quantity]})]}),(0,b.jsx)("span",{className:"font-medium",children:A(a.price*a.quantity)})]},a.id)),(0,b.jsx)("div",{className:"border-t pt-4",children:(0,b.jsxs)("div",{className:"flex justify-between font-bold text-lg",children:[(0,b.jsx)("span",{children:"Total"}),(0,b.jsx)("span",{children:A(u())})]})}),(0,b.jsxs)("div",{className:"bg-blue-50 p-4 rounded-lg space-y-2",children:[(0,b.jsx)("p",{className:"text-sm text-blue-800",children:(0,b.jsx)("strong",{children:"Delivery Process:"})}),(0,b.jsxs)("ul",{className:"text-sm text-blue-700 space-y-1",children:[(0,b.jsx)("li",{children:"• Order reviewed by admin team"}),(0,b.jsx)("li",{children:"• Approved orders redirected to respective platforms"}),(0,b.jsx)("li",{children:"• Delivery handled by platform partners"}),(0,b.jsx)("li",{children:"• Regional delivery options may vary"})]})]})]})]})})]})]}),(0,b.jsx)(e.Footer,{})]})}])},28887,24987,a=>{"use strict";var b=a.i(87924),c=a.i(38246),d=a.i(22520),e=a.i(92258),f=a.i(70106);let g=(0,f.default)("MapPin",[["path",{d:"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",key:"1r0f0z"}],["circle",{cx:"12",cy:"10",r:"3",key:"ilqhr7"}]]);a.s(["MapPin",0,g],24987);let h=(0,f.default)("Phone",[["path",{d:"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z",key:"foiqr5"}]]),i=[{label:"Discover products",href:"/search?q=electronics"},{label:"Compare shortlist",href:"/compare"},{label:"Saved products",href:"/watchlist"},{label:"My orders",href:"/orders"}];a.s(["Footer",0,function(){return(0,b.jsx)("footer",{className:"bg-[#f8f3e9] pb-8 pt-16 dark:bg-[#0d1b2b] sm:pt-24",children:(0,b.jsxs)("div",{className:"site-shell",children:[(0,b.jsxs)("div",{className:"grid gap-12 border-b border-[#102235]/10 pb-14 dark:border-white/10 lg:grid-cols-[1.1fr_0.9fr_0.8fr]",children:[(0,b.jsxs)("div",{children:[(0,b.jsxs)("div",{className:"flex items-center gap-3",children:[(0,b.jsx)("span",{className:"grid h-11 w-11 place-items-center rounded-[1.1rem] bg-[#102235] text-sm font-black text-[#dfff5b] dark:bg-[#dfff5b] dark:text-[#102235]",children:"EX"}),(0,b.jsxs)("div",{children:[(0,b.jsx)("p",{className:"text-lg font-black tracking-[-0.04em] text-[#102235] dark:text-[#f5f0e6]",children:"enosx"}),(0,b.jsx)("p",{className:"text-[9px] font-bold uppercase tracking-[0.22em] text-[#718092]",children:"tech marketplace"})]})]}),(0,b.jsx)("h2",{className:"display-heading mt-8 max-w-md text-4xl font-black text-[#102235] dark:text-[#f5f0e6] sm:text-5xl",children:"Shop less blindly."}),(0,b.jsx)("p",{className:"mt-5 max-w-sm text-sm leading-7 text-[#617083] dark:text-[#b9c7d3]",children:"Enosx brings Kenya's tech market into one clear, useful view—so the next purchase feels like a decision, not a gamble."})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)("p",{className:"text-[10px] font-black uppercase tracking-[0.2em] text-[#3677ff]",children:"Navigate"}),(0,b.jsx)("div",{className:"mt-5 grid gap-3",children:i.map(a=>(0,b.jsxs)(c.default,{href:a.href,className:"group flex items-center justify-between text-sm font-bold text-[#536476] transition-colors hover:text-[#102235] dark:text-[#b9c7d3] dark:hover:text-[#dfff5b]",children:[a.label,(0,b.jsx)(d.ArrowUpRight,{className:"h-4 w-4 opacity-40 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"})]},a.href))})]}),(0,b.jsxs)("div",{children:[(0,b.jsx)("p",{className:"text-[10px] font-black uppercase tracking-[0.2em] text-[#3677ff]",children:"Talk to us"}),(0,b.jsxs)("div",{className:"mt-5 grid gap-4 text-sm font-semibold text-[#536476] dark:text-[#b9c7d3]",children:[(0,b.jsxs)("a",{href:"mailto:Enosxtech@gmail.com",className:"flex items-center gap-3 hover:text-[#102235] dark:hover:text-[#dfff5b]",children:[(0,b.jsx)(e.Mail,{className:"h-4 w-4 text-[#3677ff]"})," Enosxtech@gmail.com"]}),(0,b.jsxs)("a",{href:"tel:0798303978",className:"flex items-center gap-3 hover:text-[#102235] dark:hover:text-[#dfff5b]",children:[(0,b.jsx)(h,{className:"h-4 w-4 text-[#3677ff]"})," 0798 303 978"]}),(0,b.jsxs)("span",{className:"flex items-center gap-3",children:[(0,b.jsx)(g,{className:"h-4 w-4 text-[#3677ff]"})," Nairobi, Kenya"]})]})]})]}),(0,b.jsxs)("div",{className:"flex flex-col justify-between gap-3 pt-6 text-[11px] font-semibold text-[#8190a0] sm:flex-row",children:[(0,b.jsx)("span",{children:"© 2026 Enosx Technologies. Built for better decisions."}),(0,b.jsx)("span",{children:"Jumia · Kilimall · Jiji"})]})]})})}],28887)},3130,a=>{"use strict";var b=a.i(87924),c=a.i(97895);a.s(["Card",0,function({className:a,...d}){return(0,b.jsx)("div",{"data-slot":"card",className:(0,c.cn)("bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",a),...d})},"CardContent",0,function({className:a,...d}){return(0,b.jsx)("div",{"data-slot":"card-content",className:(0,c.cn)("px-6",a),...d})},"CardHeader",0,function({className:a,...d}){return(0,b.jsx)("div",{"data-slot":"card-header",className:(0,c.cn)("@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",a),...d})},"CardTitle",0,function({className:a,...d}){return(0,b.jsx)("div",{"data-slot":"card-title",className:(0,c.cn)("leading-none font-semibold",a),...d})}])},17171,a=>{"use strict";var b=a.i(87924),c=a.i(72131),d=a.i(30553),e=c.forwardRef((a,c)=>(0,b.jsx)(d.Primitive.label,{...a,ref:c,onMouseDown:b=>{b.target.closest("button, input, select, textarea")||(a.onMouseDown?.(b),!b.defaultPrevented&&b.detail>1&&b.preventDefault())}}));e.displayName="Label";var f=a.i(97895);a.s(["Label",0,function({className:a,...c}){return(0,b.jsx)(e,{"data-slot":"label",className:(0,f.cn)("flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",a),...c})}],17171)},46893,9759,a=>{"use strict";var b=a.i(87924),c=a.i(97895);async function d(a){try{if(console.log("[enosx] Email would be sent:",{to:a.to,subject:a.subject,preview:a.text?.substring(0,100)||a.html.substring(0,100)}),!(await fetch("/api/send-email",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(a)})).ok)throw Error("Failed to send email");return{success:!0}}catch(a){return console.error("Email sending error:",a),{success:!1,error:a}}}a.s(["Textarea",0,function({className:a,...d}){return(0,b.jsx)("textarea",{"data-slot":"textarea",className:(0,c.cn)("border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",a),...d})}],46893),a.s(["emailTemplates",0,{newOrderAdmin:a=>({subject:`New Order #${a.order_number} - Enosx Technologies`,html:`
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #2563eb; color: white; padding: 20px; text-align: center;">
+          <h1>New Order Received</h1>
+        </div>
+        
+        <div style="padding: 20px;">
+          <h2>Order #${a.order_number}</h2>
+          
+          <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>Customer Information:</h3>
+            <p><strong>Name:</strong> ${a.customer_name}</p>
+            <p><strong>Email:</strong> ${a.customer_email}</p>
+            <p><strong>Phone:</strong> ${a.customer_phone||"Not provided"}</p>
+            <p><strong>Address:</strong> ${a.delivery_address}</p>
+            ${a.notes?`<p><strong>Notes:</strong> ${a.notes}</p>`:""}
+          </div>
+          
+          <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>Order Details:</h3>
+            <p><strong>Total Amount:</strong> KES ${a.total_amount.toLocaleString()}</p>
+            <p><strong>Status:</strong> Pending Approval</p>
+            <p><strong>Order Date:</strong> ${new Date(a.created_at).toLocaleString()}</p>
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${process.env.NEXT_PUBLIC_APP_URL||"http://localhost:3000"}/admin/orders/${a.id}" 
+               style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+              Review Order in Admin Dashboard
+            </a>
+          </div>
+          
+          <p style="color: #6b7280; font-size: 14px;">
+            Please review and approve this order in the admin dashboard to proceed with processing.
+          </p>
+        </div>
+      </div>
+    `,text:`New Order #${a.order_number} received from ${a.customer_name} (${a.customer_email}). Total: KES ${a.total_amount.toLocaleString()}. Please review in admin dashboard.`}),orderApproved:a=>({subject:`Order #${a.order_number} Approved - Enosx Technologies`,html:`
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #16a34a; color: white; padding: 20px; text-align: center;">
+          <h1>Order Approved!</h1>
+        </div>
+        
+        <div style="padding: 20px;">
+          <p>Dear ${a.customer_name},</p>
+          
+          <p>Great news! Your order #${a.order_number} has been approved and is ready for processing.</p>
+          
+          <div style="background-color: #f0fdf4; border-left: 4px solid #16a34a; padding: 15px; margin: 20px 0;">
+            <h3>What happens next?</h3>
+            <p>Our team will now redirect your order to the respective e-commerce platforms for fulfillment. You will receive separate confirmation emails from each platform with tracking information.</p>
+          </div>
+          
+          <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>Order Summary:</h3>
+            <p><strong>Order Number:</strong> ${a.order_number}</p>
+            <p><strong>Total Amount:</strong> KES ${a.total_amount.toLocaleString()}</p>
+            <p><strong>Delivery Address:</strong> ${a.delivery_address}</p>
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${process.env.NEXT_PUBLIC_APP_URL||"http://localhost:3000"}/orders/${a.id}" 
+               style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+              View Order Details
+            </a>
+          </div>
+          
+          <p>Thank you for choosing Enosx Technologies!</p>
+          
+          <p style="color: #6b7280; font-size: 14px;">
+            If you have any questions, please contact us at Enosxtech@gmail.com
+          </p>
+        </div>
+      </div>
+    `,text:`Your order #${a.order_number} has been approved! Total: KES ${a.total_amount.toLocaleString()}. You will receive tracking information from the respective platforms soon.`}),orderRejected:a=>({subject:`Order #${a.order_number} Update - Enosx Technologies`,html:`
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #dc2626; color: white; padding: 20px; text-align: center;">
+          <h1>Order Update</h1>
+        </div>
+        
+        <div style="padding: 20px;">
+          <p>Dear ${a.customer_name},</p>
+          
+          <p>We regret to inform you that your order #${a.order_number} could not be processed at this time.</p>
+          
+          <div style="background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 15px; margin: 20px 0;">
+            <h3>Possible reasons:</h3>
+            <ul>
+              <li>Product availability issues</li>
+              <li>Delivery location restrictions</li>
+              <li>Payment verification required</li>
+            </ul>
+          </div>
+          
+          <div style="background-color: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <h3>Order Details:</h3>
+            <p><strong>Order Number:</strong> ${a.order_number}</p>
+            <p><strong>Total Amount:</strong> KES ${a.total_amount.toLocaleString()}</p>
+          </div>
+          
+          <p>Please contact us at Enosxtech@gmail.com for more information or to place a new order.</p>
+          
+          <p>We apologize for any inconvenience and appreciate your understanding.</p>
+          
+          <p>Best regards,<br>Enosx Technologies Team</p>
+        </div>
+      </div>
+    `,text:`Your order #${a.order_number} could not be processed. Please contact Enosxtech@gmail.com for more information.`})},"sendEmail",0,d],9759)},34157,a=>{"use strict";let b=(0,a.i(70106).default)("Check",[["path",{d:"M20 6 9 17l-5-5",key:"1gmf2c"}]]);a.s(["default",0,b])},4650,a=>{"use strict";let b=(0,a.i(70106).default)("LoaderCircle",[["path",{d:"M21 12a9 9 0 1 1-6.219-8.56",key:"13zald"}]]);a.s(["default",0,b])},96221,a=>{"use strict";var b=a.i(4650);a.s(["Loader2",()=>b.default])},92258,a=>{"use strict";let b=(0,a.i(70106).default)("Mail",[["rect",{width:"20",height:"16",x:"2",y:"4",rx:"2",key:"18n3k1"}],["path",{d:"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7",key:"1ocrg3"}]]);a.s(["Mail",0,b],92258)}];
+
+//# sourceMappingURL=_0sds0g7._.js.map

@@ -1,0 +1,23 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/orders/[id]/page": "/admin/orders/[id]",
+  "/admin/page": "/admin",
+  "/api/place-order/route": "/api/place-order",
+  "/api/search/route": "/api/search",
+  "/api/send-email/route": "/api/send-email",
+  "/api/stats/route": "/api/stats",
+  "/api/suggestions/route": "/api/suggestions",
+  "/api/sync-products/route": "/api/sync-products",
+  "/auth/callback/route": "/auth/callback",
+  "/auth/login/page": "/auth/login",
+  "/auth/profile-setup/page": "/auth/profile-setup",
+  "/auth/signup/page": "/auth/signup",
+  "/cart/page": "/cart",
+  "/checkout/page": "/checkout",
+  "/compare/page": "/compare",
+  "/orders/[id]/page": "/orders/[id]",
+  "/page": "/",
+  "/search/page": "/search",
+  "/watchlist/page": "/watchlist"
+}

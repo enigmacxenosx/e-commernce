@@ -1,0 +1,23 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/orders/[id]/page": "app/admin/orders/[id]/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/api/place-order/route": "app/api/place-order/route.js",
+  "/api/search/route": "app/api/search/route.js",
+  "/api/send-email/route": "app/api/send-email/route.js",
+  "/api/stats/route": "app/api/stats/route.js",
+  "/api/suggestions/route": "app/api/suggestions/route.js",
+  "/api/sync-products/route": "app/api/sync-products/route.js",
+  "/auth/callback/route": "app/auth/callback/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/auth/profile-setup/page": "app/auth/profile-setup/page.js",
+  "/auth/signup/page": "app/auth/signup/page.js",
+  "/cart/page": "app/cart/page.js",
+  "/checkout/page": "app/checkout/page.js",
+  "/compare/page": "app/compare/page.js",
+  "/orders/[id]/page": "app/orders/[id]/page.js",
+  "/page": "app/page.js",
+  "/search/page": "app/search/page.js",
+  "/watchlist/page": "app/watchlist/page.js"
+}

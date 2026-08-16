@@ -1,0 +1,59 @@
+{
+  "app": {
+    "[project]/app/_not-found/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/admin/orders/[id]/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/admin/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/auth/login/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/auth/profile-setup/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/auth/signup/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/cart/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/checkout/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/compare/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/orders/[id]/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/search/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ],
+    "[project]/app/watchlist/page": [
+      "static/media/Geist_Variable-s.p.38tal-0yzr82m.woff2",
+      "static/media/GeistMono_Variable.p.42jdkyb02hb3d.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}
