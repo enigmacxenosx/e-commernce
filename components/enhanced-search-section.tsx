@@ -1,13 +1,14 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
-import { Search, Sparkles, Zap } from "lucide-react"
+import { ArrowRight, ChevronDown, Search, Sparkles, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useRouter } from "next/navigation"
+
+const quickSearches = ["iPhone 15", "MacBook Pro", "Samsung Galaxy", "AirPods"]
 
 export function EnhancedSearchSection() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -21,67 +22,62 @@ export function EnhancedSearchSection() {
     if (!searchQuery.trim()) return
 
     setIsSearching(true)
-
-    // Simulate search delay for better UX
     setTimeout(() => {
       const params = new URLSearchParams()
       params.set("q", searchQuery)
       if (category) params.set("category", category)
       if (platform) params.set("platform", platform)
-
       router.push(`/search?${params.toString()}`)
       setIsSearching(false)
-    }, 800)
+    }, 450)
   }
 
   return (
-    <section className="relative py-12 sm:py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-background dark:via-background dark:to-background overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-10 left-10 w-20 h-20 bg-blue-200 rounded-full blur-xl opacity-30 animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-32 h-32 bg-purple-200 rounded-full blur-xl opacity-30 animate-pulse delay-1000"></div>
+    <section className="relative overflow-hidden bg-[#102235] py-12 text-[#f5f0e6] sm:py-20 lg:py-24">
+      <div className="absolute inset-0 market-grid opacity-20" />
+      <div className="hero-glow absolute -right-24 -top-24 h-96 w-96 opacity-70" />
+      <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full border-[40px] border-[#3677ff]/30 blur-sm" />
 
-      <div className="w-full px-4 sm:px-6 relative z-10">
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-            <Sparkles className="h-4 w-4" />
-            Kenya's #1 Electronics Aggregator
+      <div className="site-shell relative z-10">
+        <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div>
+            <div className="eyebrow border-[#dfff5b]/40 bg-[#dfff5b]/10 text-[#dfff5b]">
+              <Sparkles className="h-3.5 w-3.5" /> Price intelligence for real life
+            </div>
+            <h1 className="display-heading mt-7 max-w-4xl text-5xl font-black sm:text-7xl lg:text-[6.8rem]">
+              Better tech.
+              <span className="block text-[#dfff5b]">Less hunting.</span>
+            </h1>
+            <p className="mt-7 max-w-xl text-base leading-7 text-[#c5d0da] sm:text-lg">
+              One clean search across Jumia, Kilimall, and Jiji. See what is available, compare the real price, and move with confidence.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3 text-xs font-bold uppercase tracking-[0.14em] text-[#aebdca]">
+              <span className="rounded-full border border-white/15 px-3 py-2">3 marketplaces</span>
+              <span className="rounded-full border border-white/15 px-3 py-2">Kenya-first</span>
+              <span className="rounded-full border border-white/15 px-3 py-2">Built for comparison</span>
+            </div>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
-            Find Electronics from
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {" "}
-              Multiple Platforms
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 sm:mb-12">
-            Search across Jumia, Kilimall, and Jiji simultaneously. Compare prices and find the best deals.
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <form
-            onSubmit={handleSearch}
-            className="bg-background/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border p-4 sm:p-6 space-y-3 sm:space-y-4"
-          >
-            <div className="flex flex-col gap-3 sm:gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+          <div className="relative lg:pb-3">
+            <div className="mb-4 flex items-center justify-between text-xs font-bold uppercase tracking-[0.18em] text-[#9eafbd]">
+              <span>Start a discovery session</span>
+              <span className="text-[#dfff5b]">01 / 03</span>
+            </div>
+            <form onSubmit={handleSearch} className="paper-panel rounded-[2rem] p-3 text-[#102235] sm:p-4">
+              <div className="flex items-center gap-3 rounded-[1.4rem] border border-[#102235]/10 bg-white/70 px-4 py-1 shadow-inner">
+                <Search className="h-5 w-5 shrink-0 text-[#3677ff]" />
                 <Input
                   type="text"
-                  placeholder="Search for electronics..."
+                  placeholder="Try “wireless headphones”"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 sm:pl-12 h-12 sm:h-14 text-sm sm:text-lg border-0 bg-muted/50 focus:bg-background transition-colors rounded-lg"
+                  className="h-12 border-0 bg-transparent px-0 text-base font-semibold shadow-none focus-visible:ring-0"
                 />
               </div>
-
-              <div className="grid grid-cols-2 sm:flex gap-3 sm:gap-4">
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger className="h-12 sm:h-14 border-0 bg-muted/50 text-sm sm:text-base rounded-lg">
-                    <SelectValue placeholder="Category" />
+                  <SelectTrigger className="h-12 rounded-[1.1rem] border-[#102235]/10 bg-white/70 font-semibold">
+                    <SelectValue placeholder="Every category" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="smartphones">Smartphones</SelectItem>
@@ -91,10 +87,9 @@ export function EnhancedSearchSection() {
                     <SelectItem value="accessories">Accessories</SelectItem>
                   </SelectContent>
                 </Select>
-
                 <Select value={platform} onValueChange={setPlatform}>
-                  <SelectTrigger className="h-12 sm:h-14 border-0 bg-muted/50 text-sm sm:text-base rounded-lg">
-                    <SelectValue placeholder="Platform" />
+                  <SelectTrigger className="h-12 rounded-[1.1rem] border-[#102235]/10 bg-white/70 font-semibold">
+                    <SelectValue placeholder="Every marketplace" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="jumia">Jumia</SelectItem>
@@ -103,39 +98,24 @@ export function EnhancedSearchSection() {
                   </SelectContent>
                 </Select>
               </div>
+              <Button type="submit" disabled={isSearching} className="pressable mt-3 h-14 w-full rounded-[1.1rem] bg-[#3677ff] text-base font-black text-white shadow-[5px_5px_0_#dfff5b] hover:bg-[#2c65dc]">
+                {isSearching ? <><div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" /> Searching the market</> : <><Zap className="mr-2 h-5 w-5" /> Search all platforms <ArrowRight className="ml-auto h-5 w-5" /></>}
+              </Button>
+            </form>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <span className="mr-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#8fa0ae]">Popular now</span>
+              {quickSearches.map((term) => (
+                <button key={term} onClick={() => setSearchQuery(term)} className="pressable rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-[#d2dce5] transition-colors hover:border-[#dfff5b]/60 hover:text-[#dfff5b]">
+                  {term}
+                </button>
+              ))}
             </div>
-
-            <Button
-              type="submit"
-              size="lg"
-              className="w-full h-12 sm:h-14 text-sm sm:text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02] rounded-lg"
-              disabled={isSearching}
-            >
-              {isSearching ? (
-                <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Searching...
-                </>
-              ) : (
-                <>
-                  <Zap className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
-                  Search All Platforms
-                </>
-              )}
-            </Button>
-          </form>
-
-          <div className="flex flex-wrap justify-center gap-2 mt-6 sm:mt-8">
-            {["iPhone 15", "MacBook Pro", "Samsung Galaxy", "Dell Laptop", "AirPods"].map((term) => (
-              <button
-                key={term}
-                onClick={() => setSearchQuery(term)}
-                className="px-3 sm:px-4 py-2 bg-muted hover:bg-muted/80 rounded-full text-xs sm:text-sm transition-colors hover:scale-105 transform duration-200"
-              >
-                {term}
-              </button>
-            ))}
           </div>
+        </div>
+
+        <div className="mt-14 flex items-center gap-3 border-t border-white/10 pt-5 text-xs text-[#aebdca] sm:mt-20">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-[#dfff5b] text-[#102235]"><ChevronDown className="h-4 w-4" /></span>
+          <span>Scroll to see the latest signals from Kenya&apos;s tech market</span>
         </div>
       </div>
     </section>

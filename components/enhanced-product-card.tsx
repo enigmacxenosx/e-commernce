@@ -3,10 +3,9 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
+import { ArrowUpRight, Heart, Scale, ShoppingBag, Star } from "lucide-react"
+import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, ExternalLink, Heart, Star, Eye, Scale } from 'lucide-react'
 import { useCartStore } from "@/lib/cart-store"
 import { useWatchlistStore } from "@/lib/watchlist-store"
 import { useComparison } from "@/hooks/useComparison"
@@ -28,33 +27,31 @@ interface EnhancedProductCardProps {
   }
 }
 
+const platformStyles: Record<string, { label: string; className: string }> = {
+  jumia: { label: "Jumia", className: "bg-[#fff0e5] text-[#bf5a20]" },
+  kilimall: { label: "Kilimall", className: "bg-[#ffe8ed] text-[#b93753]" },
+  jiji: { label: "Jiji", className: "bg-[#e3f8ed] text-[#197b52]" },
+}
+
 export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
   const [isAdding, setIsAdding] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { addItem } = useCartStore()
   const { addItem: addToWatchlist, removeItem: removeFromWatchlist, isWatched } = useWatchlistStore()
   const { addItem: addToComparison, isInComparison, isFull } = useComparison()
   const watched = isWatched(product.id)
+  const productImages = product.images?.length ? product.images : [product.image]
+  const platform = platformStyles[product.platform.toLowerCase()] || { label: product.platform, className: "bg-[#e7efff] text-[#3677ff]" }
+  const discount = product.originalPrice ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0
+  const lookup = { id: product.id, platform: product.platform } as any
+  const compared = isInComparison(lookup)
 
-  // <CHANGE> Use multiple images if available, fallback to single image
-  const productImages = product.images && product.images.length > 0 ? product.images : [product.image]
+  const formatPrice = (price: number) => new Intl.NumberFormat("en-KE", { style: "currency", currency: "KES", minimumFractionDigits: 0 }).format(price)
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-KE", {
-      style: "currency",
-      currency: "KES",
-      minimumFractionDigits: 0,
-    }).format(price)
-  }
-
-  const handleAddToCart = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleAddToCart = (event: React.MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
     setIsAdding(true)
-
-    // Simulate API delay
-    setTimeout(() => {
+    window.setTimeout(() => {
       addItem({
         id: product.id,
         name: product.name,
@@ -65,48 +62,21 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
         platform: product.platform,
         externalUrl: product.externalUrl,
       })
-
-      toast({
-        title: "Added to cart!",
-        description: `${product.name} has been added to your cart.`,
-      })
-
+      toast({ title: "Added to cart", description: `${product.name} is ready in your cart.` })
       setIsAdding(false)
-    }, 500)
+    }, 250)
   }
 
-  // <CHANGE> Auto-cycle through images on hover
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-    if (productImages.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % productImages.length)
-      }, 1000)
-      
-      // Store interval ID to clear it later
-      ;(document as any).imageInterval = interval
-    }
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovered(false)
-    setCurrentImageIndex(0)
-    if ((document as any).imageInterval) {
-      clearInterval((document as any).imageInterval)
-    }
-  }
-
-  const handleAddToComparison = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-
+  const handleAddToComparison = (event: React.MouseEvent) => {
+    event.preventDefault()
+    event.stopPropagation()
     const productData = {
       id: product.id,
       name: product.name,
       price: product.price,
       currency: "KES",
       image: product.image,
-      images: product.images || [product.image],
+      images: productImages,
       platform: product.platform,
       category: "",
       availability: product.inStock,
@@ -119,217 +89,75 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
       inStock: product.inStock ? 1 : 0,
     }
 
-    if (isInComparison(productData)) {
-      toast({
-        title: "Already in comparison",
-        description: `${product.name} is already in your comparison.`,
-      })
+    if (compared) {
+      toast({ title: "Already in compare", description: `${product.name} is already on your shortlist.` })
       return
     }
-
     if (isFull) {
-      toast({
-        title: "Comparison limit reached",
-        description: "You can compare up to 5 products. Remove one to add another.",
-        variant: "destructive",
-      })
+      toast({ title: "Compare list is full", description: "Remove one product before adding another.", variant: "destructive" })
       return
     }
-
-    const added = addToComparison(productData)
-    if (added) {
-      toast({
-        title: "Added to comparison!",
-        description: `${product.name} has been added to your comparison.`,
-      })
-    }
+    if (addToComparison(productData)) toast({ title: "Added to compare", description: `${product.name} joined your shortlist.` })
   }
-
-  const discountPercentage = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0
-
-  // <CHANGE> Platform trust and seller information
-  const platformInfo: Record<string, { color: string; bgColor: string; trustScore: string; badge: string }> = {
-    jumia: { 
-      color: "bg-yellow-100 text-yellow-800", 
-      bgColor: "bg-yellow-500", 
-      trustScore: "4.5/5",
-      badge: "Verified Seller"
-    },
-    kilimall: { 
-      color: "bg-blue-100 text-blue-800", 
-      bgColor: "bg-blue-500", 
-      trustScore: "4.3/5",
-      badge: "Trusted Store"
-    },
-    jiji: { 
-      color: "bg-purple-100 text-purple-800", 
-      bgColor: "bg-purple-500", 
-      trustScore: "4.2/5",
-      badge: "Quality Assured"
-    },
-  }
-
-  const currentPlatform = platformInfo[product.platform.toLowerCase()] || platformInfo.jumia
 
   return (
-    <Link href={`/product/${product.id}`}>
-      <Card
-        className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div className="relative aspect-square overflow-hidden">
-          <Image
-            src={productImages[currentImageIndex] || "/placeholder.svg"}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-110"
-          />
-
-          {/* Overlay on hover */}
-          <div
-            className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${isHovered ? "opacity-100" : "opacity-0"}`}
-          />
-
-          {/* <CHANGE> Enhanced Badges with Platform Trust Info */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
-            {discountPercentage > 0 && (
-              <Badge className="bg-red-500 hover:bg-red-600 text-white text-xs">-{discountPercentage}%</Badge>
-            )}
-            <Badge className={`${currentPlatform.color} text-xs font-semibold capitalize`}>
-              {product.platform}
-            </Badge>
-            <Badge className="bg-green-100 text-green-800 text-xs flex items-center gap-1">
-              <span className="inline-block w-1.5 h-1.5 bg-green-600 rounded-full"></span>
-              Verified
-            </Badge>
+    <Card className="group relative overflow-hidden rounded-[1.6rem] border-[#102235]/10 bg-white/70 shadow-[0_16px_40px_-28px_rgba(16,34,53,0.65)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[#3677ff]/40 hover:shadow-[0_22px_50px_-26px_rgba(16,34,53,0.5)] dark:border-white/10 dark:bg-[#182b40]">
+      <Link href={`/product/${product.id}`} className="block">
+        <div className="relative aspect-square overflow-hidden bg-[#eae8df] dark:bg-[#20364b]">
+          <Image src={productImages[0] || "/placeholder.svg"} alt={product.name} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+          <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+            <span className={`rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] ${platform.className}`}>{platform.label}</span>
+            {discount > 0 && <span className="rounded-full bg-[#dfff5b] px-2.5 py-1 text-[10px] font-black text-[#102235]">-{discount}%</span>}
           </div>
-
-          {/* <CHANGE> Image counter for multiple images */}
-          {productImages.length > 1 && (
-            <div className="absolute top-2 right-12 bg-black/50 text-white px-2 py-1 rounded text-xs">
-              {currentImageIndex + 1}/{productImages.length}
-            </div>
-          )}
-
-          {/* Like button */}
           <button
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
+            type="button"
+            aria-label={watched ? "Remove from saved products" : "Save product"}
+            onClick={(event) => {
+              event.preventDefault()
+              event.stopPropagation()
               if (watched) {
                 removeFromWatchlist(product.id)
-                toast({ title: "Removed from saved products", description: `${product.name} is no longer being watched.` })
+                toast({ title: "Removed from saved products" })
               } else {
                 addToWatchlist({ id: product.id, name: product.name, price: product.price, currency: "KES", image: product.image, platform: product.platform, externalUrl: product.externalUrl, inStock: product.inStock })
-                toast({ title: "Saved for later", description: `Set a target price from your saved products list.` })
+                toast({ title: "Saved for later", description: "Find it anytime in your saved products." })
               }
             }}
-            className={`absolute top-2 right-2 p-2 rounded-full transition-all duration-300 ${
-              watched ? "bg-red-500 text-white" : "bg-white/90 text-gray-600 hover:bg-red-500 hover:text-white"
-            } ${isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
+            className={`absolute right-3 top-12 grid h-9 w-9 place-items-center rounded-full border border-white/50 bg-white/85 backdrop-blur transition-colors dark:bg-[#102235]/85 ${watched ? "text-[#e0526d]" : "text-[#5e6c7b] hover:text-[#e0526d]"}`}
           >
             <Heart className={`h-4 w-4 ${watched ? "fill-current" : ""}`} />
           </button>
-
-          {/* Quick actions */}
-          <div
-            className={`absolute bottom-2 left-2 right-2 flex gap-2 transition-all duration-300 ${
-              isHovered ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <Button
-              size="sm"
-              onClick={handleAddToCart}
-              disabled={!product.inStock || isAdding}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
-            >
-              {isAdding ? (
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-              ) : (
-                <>
-                  <ShoppingCart className="h-4 w-4 mr-1" />
-                  Add
-                </>
-              )}
+          <div className="absolute inset-x-3 bottom-3 flex gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100">
+            <Button type="button" size="sm" onClick={handleAddToCart} disabled={!product.inStock || isAdding} className="pressable flex-1 rounded-xl bg-[#102235] text-xs font-black text-white hover:bg-[#1d3852] dark:bg-[#dfff5b] dark:text-[#102235] dark:hover:bg-[#cbed4b]">
+              <ShoppingBag className="mr-1.5 h-3.5 w-3.5" /> {isAdding ? "Adding" : "Add to cart"}
             </Button>
-
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={handleAddToComparison}
-              disabled={isFull && !isInComparison({ id: product.id, platform: product.platform } as any)}
-              className={`bg-white/90 hover:bg-white ${
-                isInComparison({ id: product.id, platform: product.platform } as any)
-                  ? "bg-purple-100 text-purple-700 hover:bg-purple-200"
-                  : ""
-              }`}
-              title={isFull && !isInComparison({ id: product.id, platform: product.platform } as any) ? "Comparison limit reached" : "Add to comparison"}
-            >
+            <Button type="button" size="icon" variant="secondary" onClick={handleAddToComparison} aria-label="Add to compare" className={`rounded-xl ${compared ? "bg-[#dfff5b] text-[#102235]" : "bg-white/90 text-[#102235]"}`}>
               <Scale className="h-4 w-4" />
-            </Button>
-
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                window.open(product.externalUrl, "_blank")
-              }}
-              className="bg-white/90 hover:bg-white"
-            >
-              <ExternalLink className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
-        <CardContent className="p-3 sm:p-4">
-          <h3 className="font-semibold text-sm mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
-            {product.name}
-          </h3>
-
-          {/* <CHANGE> Platform Trust Info */}
-          <div className="mb-2 p-2 bg-muted/50 rounded text-xs">
-            <div className="flex items-center gap-1 mb-1">
-              <span className="text-muted-foreground font-medium">{product.platform}</span>
-              <span className="text-green-600 font-semibold">{currentPlatform.badge}</span>
-            </div>
-            <div className="text-muted-foreground">Trust Score: {currentPlatform.trustScore}</div>
+        <div className="p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[10px] font-black uppercase tracking-[0.14em] text-[#718092]">Verified listing</span>
+            <span className="flex items-center gap-1 text-[11px] font-bold text-[#a87800]"><Star className="h-3 w-3 fill-current" /> {product.rating || "New"}</span>
           </div>
-
-          {product.rating && (
-            <div className="flex items-center gap-1 mb-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-3 w-3 ${
-                      i < Math.floor(product.rating!) ? "text-yellow-400 fill-current" : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-xs text-muted-foreground">({product.reviews || 0})</span>
+          <h3 className="mt-3 line-clamp-2 min-h-10 text-sm font-black leading-5 text-[#102235] transition-colors group-hover:text-[#3677ff] dark:text-[#f5f0e6]">{product.name}</h3>
+          <div className="mt-5 flex items-end justify-between gap-2">
+            <div>
+              <p className="text-lg font-black tracking-[-0.04em] text-[#102235] dark:text-[#f5f0e6]">{formatPrice(product.price)}</p>
+              {product.originalPrice && <p className="text-xs text-[#8491a0] line-through">{formatPrice(product.originalPrice)}</p>}
             </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-            <div className="flex flex-col">
-              <span className="font-bold text-lg text-foreground">{formatPrice(product.price)}</span>
-              {product.originalPrice && (
-                <span className="text-xs sm:text-sm text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>
-              )}
-            </div>
-
-            <Badge variant={product.inStock ? "default" : "destructive"} className="text-xs w-fit">
-              {product.inStock ? "In Stock" : "Out of Stock"}
-            </Badge>
+            <span className={`inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.12em] ${product.inStock ? "text-[#198455]" : "text-[#b74f62]"}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${product.inStock ? "bg-[#43c78b]" : "bg-[#e0526d]"}`} /> {product.inStock ? "In stock" : "Sold out"}
+            </span>
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+          <div className="mt-4 flex items-center justify-between border-t border-[#102235]/10 pt-3 text-[11px] font-semibold text-[#718092] dark:border-white/10 dark:text-[#aebdca]">
+            <span>{product.reviews || 0} reviews</span>
+            <span className="inline-flex items-center gap-1">View details <ArrowUpRight className="h-3.5 w-3.5" /></span>
+          </div>
+        </div>
+      </Link>
+    </Card>
   )
 }

@@ -125,11 +125,11 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="w-full px-4 sm:px-6 py-6 sm:py-8">
+      <main className="site-shell py-8 sm:py-12">
         {/* Search Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-4">Search Results {query && `for "${query}"`}</h1>
-          <div className="flex flex-col gap-4 sm:gap-3">
+        <div className="paper-panel mb-8 rounded-[1.8rem] p-5 sm:p-8">
+          <h1 className="display-heading mb-3 text-4xl font-black text-[#102235] dark:text-[#f5f0e6] sm:text-6xl">Search Results {query && `for "${query}"`}</h1>
+          <div className="flex flex-col gap-5 sm:gap-3">
             <div className="text-sm sm:text-base text-muted-foreground">
               {loading
                 ? "Searching..."
@@ -190,7 +190,7 @@ export default function SearchPage() {
 
         {/* <CHANGE> Advanced Filters Panel - Mobile Optimized */}
         {showFilters && !loading && products.length > 0 && (
-          <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-muted/50 rounded-lg">
+          <div className="paper-panel mb-8 rounded-[1.5rem] p-5 sm:p-7">
             <h3 className="text-base sm:text-lg font-semibold mb-4">Filters</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {/* Price Range */}
@@ -259,7 +259,7 @@ export default function SearchPage() {
         {loading && (
           <div className="flex items-center justify-center py-16">
             <div className="text-center">
-              <Loader2 className="h-12 w-12 animate-spin text-blue-600 mx-auto mb-4" />
+              <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-[#3677ff]" />
               <p className="text-muted-foreground">Searching across multiple platforms...</p>
               <p className="text-sm text-muted-foreground mt-2">This may take a few seconds</p>
             </div>
@@ -269,7 +269,7 @@ export default function SearchPage() {
         {/* Error State */}
         {error && (
           <div className="text-center py-16">
-            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-6 max-w-md mx-auto">
+              <div className="mx-auto max-w-md rounded-[1.5rem] border border-destructive/20 bg-destructive/10 p-6">
               <h3 className="text-lg font-semibold text-destructive mb-2">Search Error</h3>
               <p className="text-destructive/80 mb-4">{error}</p>
               <Button onClick={() => window.location.reload()} variant="outline">
@@ -293,7 +293,7 @@ export default function SearchPage() {
         {!loading && !error && filteredAndSortedProducts.length > 0 && (
           <div className={
             viewMode === "grid"
-              ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+              ? "grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
               : "space-y-3 sm:space-y-4"
           }>
             {filteredAndSortedProducts.map((product) => (
@@ -307,7 +307,7 @@ export default function SearchPage() {
 
         {/* <CHANGE> Enhanced Platform Performance Info - Mobile Optimized */}
         {!loading && products.length > 0 && (
-          <div className="mt-8 sm:mt-12 bg-primary/5 rounded-lg p-4 sm:p-6">
+          <div className="ink-panel mt-10 rounded-[1.8rem] p-5 sm:p-8">
             <h3 className="text-base sm:text-lg font-semibold mb-4">Search Results by Platform</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
               {["jumia", "kilimall", "jiji"].map((platformName) => {
@@ -321,7 +321,7 @@ export default function SearchPage() {
                   : 0
 
                 return (
-                  <div key={platformName} className="bg-background rounded-lg p-3 sm:p-4 border">
+                  <div key={platformName} className="rounded-[1.2rem] border border-white/10 bg-white/10 p-4 sm:p-5">
                     <h4 className="font-semibold capitalize mb-2 text-sm sm:text-base">{platformName}</h4>
                     <div className="space-y-1 text-xs sm:text-sm text-muted-foreground">
                       <p>{platformProducts.length} products found</p>

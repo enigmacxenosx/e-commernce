@@ -4,13 +4,11 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
-import { DynamicBackground } from "@/components/dynamic-background"
-// ComparisonButton removed temporarily to prevent client-side crash
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Enosx Technologies - Electronics Aggregator",
-  description: "Find and order electronics from Jumia, Kilimall, and Jiji all in one place",
+  title: "Enosx — Better tech. Less hunting.",
+  description: "Compare electronics across Kenya's leading marketplaces and shop with confidence.",
   generator: "enosx made",
   icons: {
     icon: [
@@ -32,11 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#2563eb" />
+        <meta name="theme-color" content="#102235" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Enosx" />
+        <meta name="color-scheme" content="light dark" />
         <link rel="manifest" href="/manifest.json" />
         <style>{`
 html {
@@ -47,10 +46,8 @@ html {
         `}</style>
       </head>
       <body>
-        <DynamicBackground />
-        <ThemeProvider defaultTheme="system" storageKey="enosx-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="enosx-ui-theme">
           {children}
-          {/* ComparisonButton removed temporarily */}
           <Toaster />
         </ThemeProvider>
       </body>
