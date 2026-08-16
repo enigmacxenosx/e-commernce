@@ -118,7 +118,7 @@ export default function SearchPage() {
     platform: product.platform,
     rating: product.rating,
     reviews: product.reviewCount,
-    inStock: product.inStock > 0,
+    inStock: (product.inStock ?? 0) > 0,
     externalUrl: product.externalUrl
   })
 

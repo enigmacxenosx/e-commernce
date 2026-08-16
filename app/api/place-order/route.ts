@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Order ID is required" }, { status: 400 })
     }
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Fetch order with items
     const { data: order, error: orderError } = await supabase
@@ -65,10 +65,12 @@ export async function POST(request: NextRequest) {
 
     // Update order status and store platform order IDs
     const platformOrderIds = Object.entries(placementResults)
-      .filter(([_, result]) => result.success)
+      .filter(([_, result]) => result.success && result.platformOrderId)
       .reduce(
         (acc, [platform, result]) => {
-          acc[platform] = result.platformOrderId
+          if (result.platformOrderId) {
+            acc[platform] = result.platformOrderId
+          }
           return acc
         },
         {} as { [platform: string]: string },

@@ -73,9 +73,20 @@ export function FeaturedProducts() {
           <>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-12">
               {products.map((product) => (
-                <EnhancedProductCard 
-                  key={`${product.platform}-${product.id}`} 
-                  product={product}
+                <EnhancedProductCard
+                  key={`${product.platform}-${product.id}`}
+                  product={{
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    images: product.images,
+                    platform: product.platform,
+                    rating: product.rating,
+                    reviews: product.reviewCount,
+                    inStock: (product.inStock ?? 0) > 0,
+                    externalUrl: product.externalUrl,
+                  }}
                 />
               ))}
             </div>

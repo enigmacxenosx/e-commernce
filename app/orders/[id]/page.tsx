@@ -7,13 +7,14 @@ import { CheckCircle, Clock, ExternalLink } from "lucide-react"
 import { notFound } from "next/navigation"
 
 interface OrderPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function OrderPage({ params }: OrderPageProps) {
-  const supabase = createClient()
+  const { id } = await params
+  const supabase = await createClient()
 
   // Fetch order details
   const { data: order, error } = await supabase
@@ -25,7 +26,7 @@ export default async function OrderPage({ params }: OrderPageProps) {
         products (*)
       )
     `)
-    .eq("id", params.id)
+    .eq("id", id)
     .single()
 
   if (error || !order) {

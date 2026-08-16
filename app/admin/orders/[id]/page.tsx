@@ -4,13 +4,14 @@ import { AdminOrderDetails } from "@/components/admin/admin-order-details"
 import { notFound } from "next/navigation"
 
 interface AdminOrderPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function AdminOrderPage({ params }: AdminOrderPageProps) {
-  const supabase = createClient()
+  const { id } = await params
+  const supabase = await createClient()
 
   // Fetch order details with items
   const { data: order, error } = await supabase
@@ -22,7 +23,7 @@ export default async function AdminOrderPage({ params }: AdminOrderPageProps) {
         products (*)
       )
     `)
-    .eq("id", params.id)
+    .eq("id", id)
     .single()
 
   if (error || !order) {

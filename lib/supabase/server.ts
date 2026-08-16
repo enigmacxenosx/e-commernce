@@ -31,6 +31,7 @@ function createNoopQuery(): any {
     lte: () => query,
     in: () => query,
     ilike: () => query,
+    or: () => query,
     order: () => query,
     limit: () => query,
     range: () => query,
@@ -63,7 +64,7 @@ function createNoopClient() {
   }
 }
 
-export function createClient(): any {
+export async function createClient(): Promise<any> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -71,7 +72,7 @@ export function createClient(): any {
     return createNoopClient()
   }
 
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {

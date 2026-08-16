@@ -32,7 +32,7 @@ export function SearchSuggestions({ onSearch, className }: SearchSuggestionsProp
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const debounceTimer = useRef<NodeJS.Timeout>()
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Fetch suggestions as user types
   useEffect(() => {

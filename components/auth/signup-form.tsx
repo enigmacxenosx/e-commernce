@@ -258,7 +258,7 @@ export function SignUpForm() {
               (step === "email" && !isValidEmail(email)) ||
               (step === "password" && !isValidPassword(password))
             }
-            className={`flex-1 h-11 bg-gradient-to-r ${step === "confirm" ? "hidden" : ""} ${
+            className={`flex-1 h-11 bg-gradient-to-r ${
               step === "email" && !isValidEmail(email) ? "opacity-50" : ""
             }`}
           >

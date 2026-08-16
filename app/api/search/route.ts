@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
     // Cache results in database for future reference (non-blocking)
     if (sanitizedResults.length > 0) {
       try {
-        const supabase = createClient()
+        const supabase = await createClient()
         for (const product of sanitizedResults) {
           try {
             await supabase.from("products").upsert(

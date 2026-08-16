@@ -59,10 +59,11 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
         id: product.id,
         name: product.name,
         price: product.price,
+        currency: "KES",
+        category: "",
         image: product.image,
         platform: product.platform,
         externalUrl: product.externalUrl,
-        quantity: 1,
       })
 
       toast({
@@ -115,7 +116,7 @@ export function EnhancedProductCard({ product }: EnhancedProductCardProps) {
       specifications: {},
       rating: product.rating || 0,
       reviewCount: product.reviews || 0,
-      inStock: product.inStock,
+      inStock: product.inStock ? 1 : 0,
     }
 
     if (isInComparison(productData)) {

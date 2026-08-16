@@ -44,10 +44,11 @@ export function ComparisonTable({ products, onRemove }: ComparisonTableProps) {
       id: product.id,
       name: product.name,
       price: product.price,
+      currency: product.currency,
+      category: product.category,
       image: product.image,
       platform: product.platform,
       externalUrl: product.externalUrl,
-      quantity: 1,
     })
 
     toast({

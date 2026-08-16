@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    const supabase = createClient()
+    const supabase = await createClient()
 
     // Get matching brands and products from database
     const { data: products, error } = await supabase
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
 
     // Add matching product names
     if (products) {
-      products.forEach((product) => {
+      products.forEach((product: { name?: string; brand?: string; category?: string }) => {
         if (product.name && !seenValues.has(product.name.toLowerCase())) {
           suggestions.push({
             type: "product",

@@ -4,7 +4,7 @@ import { OrdersTable } from "@/components/admin/orders-table"
 import { StatsCards } from "@/components/admin/stats-cards"
 
 export default async function AdminDashboard() {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // For demo purposes, we'll skip authentication
   // In production, you'd want proper admin authentication here
@@ -27,10 +27,15 @@ export default async function AdminDashboard() {
   }
 
   // Calculate stats
+  type OrderSummary = {
+    status?: string
+    admin_approved?: boolean
+    total_amount?: number
+  }
   const totalOrders = orders?.length || 0
-  const pendingOrders = orders?.filter((order) => order.status === "pending").length || 0
-  const approvedOrders = orders?.filter((order) => order.admin_approved).length || 0
-  const totalRevenue = orders?.reduce((sum, order) => sum + order.total_amount, 0) || 0
+  const pendingOrders = orders?.filter((order: OrderSummary) => order.status === "pending").length || 0
+  const approvedOrders = orders?.filter((order: OrderSummary) => order.admin_approved).length || 0
+  const totalRevenue = orders?.reduce((sum: number, order: OrderSummary) => sum + (order.total_amount || 0), 0) || 0
 
   const stats = {
     totalOrders,

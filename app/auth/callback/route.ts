@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const redirectTo = searchParams.get('redirectTo') || '/'
 
   if (code) {
-    const supabase = createClient()
+    const supabase = await createClient()
     const { error, data } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error && data.user) {
